@@ -22,13 +22,20 @@ jobs:
       # Build
       - name: Build
         run: ./build.sh
-      # Upload
+      # Upload SpigotMC
       - name: Save Artifacts
         uses: actions/upload-artifact@v2
         if: github.event_name == 'push'
         with:
           name: spigotmc.zip
-          path: Spigot/
+          path: ~/.m2/repository/org/spigotmc/
+      # Upload Bukkit
+      - name: Save Artifacts
+        uses: actions/upload-artifact@v2
+        if: github.event_name == 'push'
+        with:
+          name: bukkit.zip
+          path: ~/.m2/repository/org/bukkit/
   # deploy:
   #   name: deploy
   #   runs-on: ubuntu-latest
