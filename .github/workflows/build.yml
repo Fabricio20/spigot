@@ -1,0 +1,40 @@
+name: Build Spigot
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      # JDK
+      - name: Set up JDK
+        uses: actions/setup-java@v1
+        with:
+          java-version: 16
+          - name: Set up Maven
+      # Maven
+      - name: Set up Maven
+        uses: stCarolas/setup-maven@v4.2
+        with:
+          maven-version: 3.8.2
+      # Build
+      - name: Build
+        run: ./build.sh
+  # deploy:
+  #   name: deploy
+  #   runs-on: ubuntu-latest
+  #   needs: build
+  #   if: github.event_name == 'push'
+  #   steps:
+  #     - name: Deploy to CDN
+  #       uses: appleboy/ssh-action@master
+  #       with:
+  #         host: ${{ secrets.CLUSTER_SSH_HOST }}
+  #         username: ${{ secrets.CLUSTER_SSH_USER }}
+  #         key: ${{ secrets.CLUSTER_SSH_KEY }}
+  #         script: |
+  #           cd /usr/share/nginx/lindsey/i18n
+  #           git pull
